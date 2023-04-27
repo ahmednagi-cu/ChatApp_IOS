@@ -12,3 +12,5 @@ import Firebase
 //}
 
 let collection_user = Firestore.firestore().collection("users")
+let ScreenWidth = UIScreen.main.bounds.width
+let ScreenHeight = UIScreen.main.bounds.height

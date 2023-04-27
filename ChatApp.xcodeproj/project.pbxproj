@@ -8,7 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		A932BEB0914100FB838BFB55 /* Pods_ChatApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9D9E2A5E076183EC34952C5 /* Pods_ChatApp.framework */; };
+		C00A82C029FA2CD300BC9178 /* CommentFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00A82BF29FA2CD300BC9178 /* CommentFlowLayout.swift */; };
+		C00A82C429FA3B0F00BC9178 /* CustomInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00A82C329FA3B0F00BC9178 /* CustomInputView.swift */; };
+		C00A82C629FA3CD600BC9178 /* CustomInputViewTyping.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00A82C529FA3CD600BC9178 /* CustomInputViewTyping.swift */; };
+		C084E3A829F7FAE600F749D4 /* NewChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C084E3A729F7FAE600F749D4 /* NewChatController.swift */; };
+		C084E3AB29F7FCAD00F749D4 /* ConversationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C084E3AA29F7FCAD00F749D4 /* ConversationViewModel.swift */; };
+		C084E3AD29F8005900F749D4 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C084E3AC29F8005900F749D4 /* ConversationCell.swift */; };
+		C084E3AF29F810E100F749D4 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C084E3AE29F810E100F749D4 /* UserCell.swift */; };
+		C084E3B229F81C8200F749D4 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C084E3B129F81C8200F749D4 /* ChatController.swift */; };
+		C084E3B429F81D1400F749D4 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C084E3B329F81D1400F749D4 /* ChatCell.swift */; };
+		C098A54629F5E684003E84FE /* ConversationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C098A54529F5E684003E84FE /* ConversationController.swift */; };
+		C098A54B29F5E734003E84FE /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C098A54A29F5E734003E84FE /* Extension.swift */; };
 		C0A226DE29F204C500C71060 /* AuthServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A226DD29F204C500C71060 /* AuthServices.swift */; };
+		C0A63D3429F70262007F6083 /* LoginGoogle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A63D3329F70262007F6083 /* LoginGoogle.swift */; };
+		C0A63D3629F70CEE007F6083 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A63D3529F70CEE007F6083 /* UserModel.swift */; };
+		C0A63D3829F70E00007F6083 /* UserServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A63D3729F70E00007F6083 /* UserServices.swift */; };
+		C0A63D3A29F71946007F6083 /* SplashController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A63D3929F71946007F6083 /* SplashController.swift */; };
 		C0BD403A29F3D03D00157396 /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BD403929F3D03D00157396 /* constants.swift */; };
 		C0BD403C29F3D1FD00157396 /* UploaderFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BD403B29F3D1FD00157396 /* UploaderFile.swift */; };
 		C0C2E38029F1E531002F047B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C0C2E37F29F1E530002F047B /* GoogleService-Info.plist */; };
@@ -30,7 +45,22 @@
 /* Begin PBXFileReference section */
 		2DCB595DCEC5A79D68E6A296 /* Pods-ChatApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatApp.debug.xcconfig"; path = "Target Support Files/Pods-ChatApp/Pods-ChatApp.debug.xcconfig"; sourceTree = "<group>"; };
 		7292E3B91D9397EAE503E54E /* Pods-ChatApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChatApp.release.xcconfig"; path = "Target Support Files/Pods-ChatApp/Pods-ChatApp.release.xcconfig"; sourceTree = "<group>"; };
+		C00A82BF29FA2CD300BC9178 /* CommentFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentFlowLayout.swift; sourceTree = "<group>"; };
+		C00A82C329FA3B0F00BC9178 /* CustomInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInputView.swift; sourceTree = "<group>"; };
+		C00A82C529FA3CD600BC9178 /* CustomInputViewTyping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInputViewTyping.swift; sourceTree = "<group>"; };
+		C084E3A729F7FAE600F749D4 /* NewChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatController.swift; sourceTree = "<group>"; };
+		C084E3AA29F7FCAD00F749D4 /* ConversationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModel.swift; sourceTree = "<group>"; };
+		C084E3AC29F8005900F749D4 /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
+		C084E3AE29F810E100F749D4 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		C084E3B129F81C8200F749D4 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
+		C084E3B329F81D1400F749D4 /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
+		C098A54529F5E684003E84FE /* ConversationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationController.swift; sourceTree = "<group>"; };
+		C098A54A29F5E734003E84FE /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		C0A226DD29F204C500C71060 /* AuthServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServices.swift; sourceTree = "<group>"; };
+		C0A63D3329F70262007F6083 /* LoginGoogle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginGoogle.swift; sourceTree = "<group>"; };
+		C0A63D3529F70CEE007F6083 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		C0A63D3729F70E00007F6083 /* UserServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServices.swift; sourceTree = "<group>"; };
+		C0A63D3929F71946007F6083 /* SplashController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashController.swift; sourceTree = "<group>"; };
 		C0BD403929F3D03D00157396 /* constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = constants.swift; sourceTree = "<group>"; };
 		C0BD403B29F3D1FD00157396 /* UploaderFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploaderFile.swift; sourceTree = "<group>"; };
 		C0C2E37F29F1E530002F047B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -79,6 +109,42 @@
 				C9D9E2A5E076183EC34952C5 /* Pods_ChatApp.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C084E3A929F7FC9700F749D4 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				C084E3AA29F7FCAD00F749D4 /* ConversationViewModel.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		C084E3B029F81C5800F749D4 /* Conversation */ = {
+			isa = PBXGroup;
+			children = (
+				C098A54529F5E684003E84FE /* ConversationController.swift */,
+				C084E3A729F7FAE600F749D4 /* NewChatController.swift */,
+			);
+			path = Conversation;
+			sourceTree = "<group>";
+		};
+		C098A54429F5E646003E84FE /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				C084E3B129F81C8200F749D4 /* ChatController.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		C098A54729F5E6C3003E84FE /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				C084E3AC29F8005900F749D4 /* ConversationCell.swift */,
+				C084E3AE29F810E100F749D4 /* UserCell.swift */,
+				C084E3B329F81D1400F749D4 /* ChatCell.swift */,
+				C00A82C529FA3CD600BC9178 /* CustomInputViewTyping.swift */,
+			);
+			path = Chat;
 			sourceTree = "<group>";
 		};
 		C0BD403829F3D02500157396 /* Constants */ = {
@@ -135,6 +201,7 @@
 		C0D551D629F08051003292CF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C0A63D3529F70CEE007F6083 /* UserModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -142,7 +209,10 @@
 		C0D551D729F08056003292CF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				C084E3B029F81C5800F749D4 /* Conversation */,
+				C098A54429F5E646003E84FE /* Chat */,
 				C0D551DD29F081C1003292CF /* Authentication */,
+				C0A63D3929F71946007F6083 /* SplashController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -150,6 +220,7 @@
 		C0D551D829F0806B003292CF /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				C084E3A929F7FC9700F749D4 /* Chat */,
 				C0D551ED29F0A752003292CF /* LoginViewModel.swift */,
 				C0D551F129F0C8A1003292CF /* RegisterViewMode.swift */,
 			);
@@ -161,6 +232,7 @@
 			children = (
 				C0A226DD29F204C500C71060 /* AuthServices.swift */,
 				C0BD403B29F3D1FD00157396 /* UploaderFile.swift */,
+				C0A63D3729F70E00007F6083 /* UserServices.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -188,6 +260,7 @@
 		C0D551DC29F08134003292CF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C098A54729F5E6C3003E84FE /* Chat */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -196,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				C0D551DE29F081D6003292CF /* LoginController.swift */,
+				C0A63D3329F70262007F6083 /* LoginGoogle.swift */,
 				C0D551EF29F0B69C003292CF /* RegisterController.swift */,
 			);
 			path = Authentication;
@@ -206,6 +280,7 @@
 			children = (
 				C0D551E129F08AAF003292CF /* Extension+View.swift */,
 				C0D551EB29F09B2A003292CF /* Extension+Button.swift */,
+				C098A54A29F5E734003E84FE /* Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -216,6 +291,8 @@
 				C0D551E529F08B35003292CF /* CustomLable.swift */,
 				C0D551E729F08C6F003292CF /* CustomImageView.swift */,
 				C0D551E929F08E15003292CF /* CustomTextField.swift */,
+				C00A82BF29FA2CD300BC9178 /* CommentFlowLayout.swift */,
+				C00A82C329FA3B0F00BC9178 /* CustomInputView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -336,18 +413,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0D551F029F0B69C003292CF /* RegisterController.swift in Sources */,
+				C098A54629F5E684003E84FE /* ConversationController.swift in Sources */,
 				C0D551EA29F08E15003292CF /* CustomTextField.swift in Sources */,
 				C0D551C229F08023003292CF /* AppDelegate.swift in Sources */,
 				C0BD403C29F3D1FD00157396 /* UploaderFile.swift in Sources */,
+				C0A63D3A29F71946007F6083 /* SplashController.swift in Sources */,
 				C0A226DE29F204C500C71060 /* AuthServices.swift in Sources */,
 				C0D551E829F08C6F003292CF /* CustomImageView.swift in Sources */,
+				C084E3AF29F810E100F749D4 /* UserCell.swift in Sources */,
+				C084E3A829F7FAE600F749D4 /* NewChatController.swift in Sources */,
 				C0D551DF29F081D6003292CF /* LoginController.swift in Sources */,
 				C0BD403A29F3D03D00157396 /* constants.swift in Sources */,
+				C0A63D3429F70262007F6083 /* LoginGoogle.swift in Sources */,
+				C084E3B229F81C8200F749D4 /* ChatController.swift in Sources */,
+				C098A54B29F5E734003E84FE /* Extension.swift in Sources */,
+				C0A63D3829F70E00007F6083 /* UserServices.swift in Sources */,
 				C0D551F229F0C8A1003292CF /* RegisterViewMode.swift in Sources */,
 				C0D551E229F08AAF003292CF /* Extension+View.swift in Sources */,
 				C0D551EC29F09B2A003292CF /* Extension+Button.swift in Sources */,
+				C00A82C629FA3CD600BC9178 /* CustomInputViewTyping.swift in Sources */,
+				C0A63D3629F70CEE007F6083 /* UserModel.swift in Sources */,
 				C0D551C429F08023003292CF /* SceneDelegate.swift in Sources */,
+				C084E3AD29F8005900F749D4 /* ConversationCell.swift in Sources */,
+				C00A82C429FA3B0F00BC9178 /* CustomInputView.swift in Sources */,
+				C00A82C029FA2CD300BC9178 /* CommentFlowLayout.swift in Sources */,
 				C0D551E629F08B35003292CF /* CustomLable.swift in Sources */,
+				C084E3B429F81D1400F749D4 /* ChatCell.swift in Sources */,
+				C084E3AB29F7FCAD00F749D4 /* ConversationViewModel.swift in Sources */,
 				C0D551EE29F0A752003292CF /* LoginViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

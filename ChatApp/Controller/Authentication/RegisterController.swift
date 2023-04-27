@@ -6,10 +6,14 @@
 //
 
 import UIKit
-
+protocol RegisterController_Delegate: AnyObject {
+    func didSuccCreateAccount(_ vc: RegisterController)
+}
 class RegisterController: UIViewController {
 // MARK: - Properties
     private var viewModel = RegisterViewMode()
+    weak var delegate: RegisterController_Delegate?
+    // MARK: - Crearte UI
     private lazy var profileImageBtn: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "plus_photo"), for: .normal)
@@ -44,7 +48,6 @@ class RegisterController: UIViewController {
         configUI()
         bindingView()
     }
-    
     
 // MARK: - Helpers
     func configUI(){
@@ -81,12 +84,15 @@ class RegisterController: UIViewController {
               let fullname = fullnameTF.text,
               let profileImage = profileImage    else { return }
        let creadtional = AuthCreadintional(email: email, password: password, username: username, fullname: fullname, profileImage: profileImage)
+        showLoader(true)
         AuthServices.shared.registerUser(creadintional: creadtional) { error in
+            self.showLoader(false)
             if let error = error {
-                print(error.localizedDescription)
+                self.showMessage(title: "Error", message: error.localizedDescription)
                 return
             }
             print("DEBG: Registration Compltion")
+            self.delegate?.didSuccCreateAccount(self)
         }
         
     }

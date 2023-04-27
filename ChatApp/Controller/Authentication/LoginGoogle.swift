@@ -9,7 +9,7 @@ import UIKit
 import GoogleSignIn
 import Firebase
 
-extension LoginVC{
+extension LoginController {
     func showTextInputPrompt(withMessage message: String,
                                completionBlock: @escaping ((Bool, String?) -> Void)) {
         let prompt = UIAlertController(title: nil, message: message, preferredStyle: .alert)
@@ -35,22 +35,22 @@ extension LoginVC{
         let config = GIDConfiguration(clientID: clientID)
 
         // Start the sign in flow!
-        GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { [unowned self] user, error in
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) { [unowned self] result, error in
 
           if let error = error {
-              showMessage(withTitle: "Error", message: error.localizedDescription)
+              showMessage(title: "Error", message: error.localizedDescription)
             return
           }
 
           guard
-            let authentication = user?.authentication,
-            let idToken = authentication.idToken
+            let authentication = result?.user,
+            let idToken = authentication.idToken?.tokenString
           else {
             return
           }
 
           let credential = GoogleAuthProvider.credential(withIDToken: idToken,
-                                                         accessToken: authentication.accessToken)
+                                                         accessToken: authentication.accessToken.tokenString)
 
           // ...
 
@@ -108,7 +108,7 @@ extension LoginVC{
                       }
                     )
                   } else {
-                      self.showMessage(withTitle: "error", message: error.localizedDescription)
+                      self.showMessage(title: "Error", message: error.localizedDescription)
                     return
                   }
                   // ...
@@ -116,8 +116,14 @@ extension LoginVC{
                 }
                 // User is signed in
                 // ...
-                
+                self.updateUserInfo()
             }
         }
+    }
+}
+
+extension LoginController {
+    func updateUserInfo(){
+        print("Succ login with google.....!!!!")
     }
 }

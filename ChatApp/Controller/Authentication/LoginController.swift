@@ -7,14 +7,16 @@
 
 
 import UIKit
-
+import Firebase
 class LoginController: UIViewController {
 // MARK: - Properties
     private var viewModel = LoginViewModel()
+    // MARK: - Crearte UI
     private let welcomeLble = CustomLable(text: "HEY, WELCOME",font: .boldSystemFont(ofSize: 20),color: .black)
     private let profileImageView = CustomImageView(image: UIImage(named: "profile"),width: 50,height: 50)
     private let emailTF = CustomTextField(placeHolder: "Email",keyboardType: .emailAddress)
     private let passwordTF = CustomTextField(placeHolder: "Passsword",isSecuretext: true)
+    
     private lazy var loginBtn: UIButton = {
         let button = UIButton(type: .system)
         button.blackButton(buttonText: "Login")
@@ -52,9 +54,9 @@ class LoginController: UIViewController {
         super.viewDidLoad()
         configUI()
         bindingView()
-       
-    }
     
+    }
+
 
 // MARK: - Helpers
     func configUI(){
@@ -91,17 +93,44 @@ class LoginController: UIViewController {
     }
 // MARK: - Actions
         @objc func didTapLoginBtn(){
-            print("DEBG: Login button")
+            guard let email = emailTF.text,
+                  let password = passwordTF.text
+            else { return }
+            showLoader(true)
+            AuthServices.shared.loginUser(withEmail: email, withPassword: password) { result, error in
+                self.showLoader(false)
+                if let error = error {
+                    self.showMessage(title: "Error", message: error.localizedDescription)
+                    return
+                }
+                self.showLoader(false)
+                self.gotTOApp()
+            }
+            
         }
+    func gotTOApp(){
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        showLoader(true)
+        UserServices.shared.fetchUser(uid: uid) { [weak self] user in
+            self?.showLoader(false)
+            let controller = ConversationController(user: user)
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            self?.present(nav, animated: true)
+        }
+        
+    }
         @objc func didTapForgotBtn(){
             print("DEBG: forGot button")
         }
         @objc func didTapsignUpBtn(){
             let controller = RegisterController()
+            controller.delegate = self
             navigationController?.pushViewController(controller, animated: true)
             print("DEBG: signUp button")
         }
         @objc func didTapGoogleBtn(){
+            setupGoogle()
             print("DEBG: Google button")
         }
     @objc func textDidChanded(sender: UITextField){
@@ -120,6 +149,16 @@ class LoginController: UIViewController {
 extension LoginController : LoginViewModelProtocol {
     func updateForm() {
         loginBtn.isEnabled = viewModel.isRegisterationFormValid
+    }
+    
+    
+}
+
+extension LoginController: RegisterController_Delegate {
+    func didSuccCreateAccount(_ vc: RegisterController) {
+        vc.navigationController?.popViewController(animated: true)
+        //showLoader(false)
+        gotTOApp()
     }
     
     

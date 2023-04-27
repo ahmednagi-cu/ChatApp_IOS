@@ -16,11 +16,20 @@ struct AuthCreadintional {
     var fullname: String
     let profileImage: UIImage
 }
+
+struct AuthCreadintionalEmail {
+    var email: String
+    var uid: String
+    var username: String
+    var fullname: String
+    let profileImage: UIImage
+}
 final class AuthServices {
     
     static let shared = AuthServices()
     
-    func loginUser(){
+    func loginUser(withEmail email: String, withPassword password: String,completion: (AuthDataResultCallback?)){
+        Auth.auth().signIn(withEmail: email, password: password,completion: completion)
         
     }
     
@@ -44,6 +53,20 @@ final class AuthServices {
             
                 collection_user.document(uid).setData(data,completion: completion)
             }
+        }
+    }
+    
+    func registerWithGoogle(credintail: AuthCreadintionalEmail, completion: @escaping(Error?) -> Void){
+        UploaderFile.shared.uploadImage(image: credintail.profileImage) { imageURL in
+            
+            let data: [String: Any] = [
+                "email": credintail.email,
+                "username": credintail.username,
+                "fullname": credintail.fullname,
+                "uid": credintail.uid,
+                "profileImage": imageURL
+            ]
+            collection_user.document(credintail.uid).setData(data,completion: completion)
         }
     }
 }
