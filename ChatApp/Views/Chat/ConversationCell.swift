@@ -6,11 +6,16 @@
 //
 
 import UIKit
-
+import SDWebImage
 class ConversationCell: UITableViewCell {
  // MARK: - Properties
     static let identifier = "ConversationCell"
-    private let profileImageView = CustomImageView(image: UIImage(named: "avatar"),width: 60,height: 60,cornarRadius: 30)
+    var viewModel : MessageViewModel? {
+        didSet {
+            configureCell()
+        }
+    }
+    private let profileImageView = CustomImageView(image: UIImage(named: "avatar"),cornarRadius: 30)
     private let fullname = CustomLable(text: "FullName")
     private let recentMessage = CustomLable(text: "recent message",color: .lightGray)
     private let dataLable = CustomLable(text: "10/10/2023",color: .lightGray)
@@ -30,7 +35,15 @@ class ConversationCell: UITableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
         addSubviews(profileImageView,dataLable)
+        imageUI()
         Add_Constraints()
+    }
+    /// image
+    func imageUI(){
+        profileImageView.setDimensions(height: 60, width: 60)
+        profileImageView.layer.cornerRadius = 30
+        profileImageView.layer.borderWidth = 2
+        profileImageView.layer.borderColor = UIColor.systemGreen.cgColor
     }
     private func Add_Constraints(){
         profileImageView.centerY(inView: self,leftAnchor: leftAnchor,paddingLeft: 10)
@@ -42,5 +55,13 @@ class ConversationCell: UITableViewCell {
         addSubview(stackView)
         stackView.centerY(inView: profileImageView, leftAnchor: profileImageView.rightAnchor, paddingLeft: 10)
         dataLable.centerY(inView: self, rightAnchor: rightAnchor,paddingRight: 10)
+    }
+    
+    private func configureCell(){
+        guard let viewModel = viewModel else { return }
+        self.profileImageView.sd_setImage(with: viewModel.profileImage)
+        self.fullname.text = viewModel.message.fullname
+        self.recentMessage.text = viewModel.messageText
+        self.dataLable.text = viewModel.timestapeString
     }
 }

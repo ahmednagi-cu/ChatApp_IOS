@@ -9,26 +9,33 @@ import UIKit
 
 class ChatController: UICollectionViewController {
     // MARK: - Properties
-     var masseges: [String] = [
-     "hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you hi ahmed how are you",
-     "this is simple data wher if you need",
-     "hi ahmed how are you",
-     "this is simple data wher if you need",
-     "hi ahmed how are you this is simple data wher if you need hi ahmed how are you",
-     "this is simple data wher if you need",
-    ]
+    var messages: [MessageModel] = []
     private lazy var customInput : CustomInputViewTyping = {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
         let iv = CustomInputViewTyping(frame: frame)
-        
+            iv.delegate = self
         return iv
     }()
+    private var currentUser: UserModel
+    private var otherUser: UserModel
+    
     // MARK: - LifeCycle
+    init(otherUser: UserModel,currentUser: UserModel){
+        self.currentUser = currentUser
+        self.otherUser = otherUser
+        super.init(collectionViewLayout: UICollectionViewFlowLayout())
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         Config_UI()
+        FetchMessages()
     }
-    // add input view in collection view
+    // add input view in collection view when is collection appear
+    
     override var inputAccessoryView: UIView? {
         get {return customInput }
     }
@@ -40,20 +47,26 @@ class ChatController: UICollectionViewController {
     
     // MARK: - Helpers
     private func Config_UI(){
+        title = otherUser.fullname
         collectionView.backgroundColor = .white
         collectionView.register(ChatCell.self, forCellWithReuseIdentifier: ChatCell.identifier)
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         collectionView.collectionViewLayout = layout
-        
-        
+    }
+    private func FetchMessages(){
+        MessageServices.shared.fetchMessages(otherUser: otherUser) { [self] message in
+            messages = message
+            collectionView.reloadData()
+            print(String(describing: message))
+        }
     }
 
 }
 // MARK: - data sourece
 extension ChatController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return masseges.count
+        return messages.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -61,7 +74,9 @@ extension ChatController {
             return UICollectionViewCell()
         }
        
-        cell.config(text: masseges[indexPath.row])
+        let message = messages[indexPath.row]
+        cell.viewModel = MessageViewModel(message: message)
+     //   cell.configure()
         return cell
     }
     
@@ -72,28 +87,43 @@ extension ChatController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
 
-        return .init(top: 10, left: 0, bottom: 10, right: 0)
+        return .init(top: 15, left: 0, bottom: 15, right: 0)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
         let cell = ChatCell(frame: frame)
-        let text = masseges[indexPath.row]
-        cell.config(text: text)
+        let messages = messages[indexPath.row]
+        cell.viewModel = MessageViewModel(message: messages)
         cell.layoutIfNeeded()
-        cell.setNeedsLayout()
-        let height = cell.containerView.frame.height + cell.datLable.frame.height + 10
-        let targetSize = CGSize(width: collectionView.frame.width, height: height )
-        let estimateSize = cell.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
-        
-        return CGSize(width: view.frame.width, height: estimateSize.height)
-       
+        let targetSize = CGSize(width: view.frame.width, height: 1000 )
+        let estimateSize = cell.systemLayoutSizeFitting(targetSize)
 
-    }
-    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.invalidateLayout()
-    }
+        return .init(width: view.frame.width, height: estimateSize.height)
+
+
+   }
+
 
 }
+// MARK: - CustomInputViewTypingDelegate 
+extension ChatController: CustomInputViewTypingDelegate {
 
+    func customInputViewTyping(_ view: CustomInputViewTyping, wantUploadMessage message: String, sendbtn: UIButton) {
+        print(message)
+        collectionView.reloadData()
+        MessageServices.shared.uploadMessage(message: message, currentUser:currentUser, otherUser: otherUser) { _ in
+          // TODO: -
+            print(message)
+        }
+        view.cleartextView()
+//        if view.inputTextView.text == ""{
+//            sendbtn.isEnabled = true
+//        }else {
+//            sendbtn.isEnabled = false
+//        }
+//
+  }
+
+    
+}

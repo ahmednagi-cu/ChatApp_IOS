@@ -136,7 +136,7 @@ extension RegisterController: RegisterViewModeProtocol {
 extension RegisterController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedImage = info[.editedImage] as? UIImage else { return }
-        self.profileImage = selectedImage
+        self.profileImage = selectedImage.circleMasked
         profileImageBtn.layer.cornerRadius = profileImageBtn.frame.width / 2
         profileImageBtn.layer.masksToBounds = true
         profileImageBtn.layer.borderColor = UIColor.gray.cgColor

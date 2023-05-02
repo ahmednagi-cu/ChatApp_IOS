@@ -22,4 +22,17 @@ final class UserServices {
             completion(user)
         }
     }
+    
+/// Fetch users data
+    
+    func fetchUsers(completion: @escaping([UserModel]) -> Void) {
+        collection_user.getDocuments { userData, error in
+            guard let userData = userData, error == nil else { return }
+            let users = userData.documents.map {
+                UserModel(dictionary: $0.data())
+                
+            }
+            completion(users)
+        }
+    }
 }

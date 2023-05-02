@@ -9,22 +9,32 @@ import UIKit
 
 class ChatCell: UICollectionViewCell{
     // MARK: - Properties
+    var viewModel: MessageViewModel? {
+        didSet {
+            configure()
+        }
+    }
     static let identifier = "ChatCell"
-     let profileImageView = CustomImageView(image: UIImage(named: "avatar"),width: 30, height: 30, cornarRadius: 15,backgroundColor: .black)
-     let datLable = CustomLable(text: "Wed 4:08 PM 10/10/2022",font: .boldSystemFont(ofSize: 12),color: .systemGray5)
-     let containerView: UIView = {
+     var profileImageView = CustomImageView(image: UIImage(named: "avatar"),width: 30, height: 30, cornarRadius: 15,backgroundColor: .black)
+     var datLable = CustomLable(text: "Wed 4:08 PM 10/10/2022",font: .boldSystemFont(ofSize: 12),color: .systemGray4)
+     var bubbleContainer: UIView = {
        let view = UIView()
         view.backgroundColor = #colorLiteral(red: 0.9058823529, green: 0.9098039216, blue: 0.9137254902, alpha: 1)
         return view
     }()
 
+    var bubbleRightAnchor: NSLayoutConstraint!
+    var bubbleLeftAnchor: NSLayoutConstraint!
     
-     let textView : UITextView = {
+    var dateRightAnchor: NSLayoutConstraint!
+    var dateLeftAnchor: NSLayoutConstraint!
+    
+     var textView : UITextView = {
         let TF = UITextView()
         TF.backgroundColor = .clear
         TF.isEditable = false
         TF.isScrollEnabled = false
-        TF.text = "init(coder:) has not been implemented init(coder:) has not been implemented"
+        TF.text = ""
         TF.font = .systemFont(ofSize: 16)
         return TF
     }()
@@ -42,39 +52,67 @@ class ChatCell: UICollectionViewCell{
     // MARK: - Helpers
     func Config_UI(){
         addSubview(profileImageView)
-        addSubview(containerView)
+        addSubview(bubbleContainer)
         addSubview(datLable)
         Add_Constraints()
     }
     func Add_Constraints(){
         /// avatar constarints
-        profileImageView.anchor(left: leftAnchor,bottom: bottomAnchor, paddingLeft: 10,paddingBottom: 12)
+        profileImageView.anchor(left: leftAnchor,bottom: bottomAnchor, paddingLeft: 10)
         profileImageView.setHeight(30)
-        /// containerView constarints
-        containerView.addSubview(textView)
-        containerView.layer.cornerRadius = 12
-        containerView.anchor(top: topAnchor,left: profileImageView.rightAnchor,paddingLeft: 12)
-        /// textView constarints
-        textView.anchor(top: containerView.topAnchor,left: containerView.leftAnchor,bottom: containerView.bottomAnchor,right: containerView.rightAnchor,paddingTop: 4,paddingLeft: 10,paddingBottom: 4,paddingRight: 10)
-        textView.widthAnchor.constraint(lessThanOrEqualToConstant: 250).isActive = true
+        /// bubbleContainer View constarints
+   
+        bubbleContainer.layer.cornerRadius = 12
+        bubbleContainer.anchor(top: topAnchor,bottom: bottomAnchor)
+        bubbleContainer.widthAnchor.constraint(lessThanOrEqualToConstant: 250).isActive = true
+        bubbleContainer.addSubview(textView)
+        textView.anchor(top: bubbleContainer.topAnchor,left: bubbleContainer.leftAnchor,bottom: bubbleContainer.bottomAnchor,right: bubbleContainer.rightAnchor,paddingTop: 4,paddingLeft: 12,paddingBottom: 4,paddingRight: 12)
+        /// bubbleLeftAnchor
+        bubbleLeftAnchor = bubbleContainer.leftAnchor.constraint(equalTo: profileImageView.rightAnchor,constant: 12)
+        bubbleLeftAnchor.isActive = false
+        /// bubbleRightAnchor
+        bubbleRightAnchor = bubbleContainer.rightAnchor.constraint(equalTo: rightAnchor,constant: -12)
+        bubbleRightAnchor.isActive = false
+        
         /// datLable constarints
-        datLable.centerX(inView: self)
-        datLable.anchor(top: containerView.bottomAnchor,paddingTop: 10)
+        /// dateLeftAnchor
+        dateLeftAnchor = datLable.leftAnchor.constraint(equalTo: bubbleContainer.rightAnchor,constant: 12)
+        dateLeftAnchor.isActive = false
+        
+        /// dateRightAnchor
+        dateRightAnchor = datLable.rightAnchor.constraint(equalTo: bubbleContainer.leftAnchor,constant: -12)
+        dateRightAnchor.isActive = false
+        
+        datLable.anchor(bottom: bottomAnchor)
+        
+       
+     
         
         
         
     }
     
-    func config(text: String){
-        textView.text = text
+    private func configure(){
+        guard let viewModel = viewModel else { return }
+        bubbleContainer.backgroundColor = viewModel.messageBackgrpundColor
+        textView.text = viewModel.messageText
+        textView.textColor = viewModel.messageColor
+        profileImageView.sd_setImage(with: viewModel.profileImage)
+        profileImageView.isHidden = viewModel.shoudHideProfileImage
+        bubbleRightAnchor.isActive = viewModel.rightAnchorActive
+        dateRightAnchor.isActive = viewModel.rightAnchorActive
+        
+        bubbleLeftAnchor.isActive = viewModel.leftAnchorActive
+        dateLeftAnchor.isActive = viewModel.leftAnchorActive
+        guard let timestamp = viewModel.timestapeString else { return }
+
+        datLable.text = timestamp
     }
+//     func configure(){
+//        bubbleLeftAnchor.isActive = true
+//        dateLeftAnchor.isActive = true
+//    }
     
 }
 
 
-/// another constraint
-//    var containerRightAnchor : NSLayoutConstraint!
-//    var containerLeftAnchor : NSLayoutConstraint!
-//
-//    var dateRightAnchor: NSLayoutConstraint!
-//    var dateLeftAnchor: NSLayoutConstraint!

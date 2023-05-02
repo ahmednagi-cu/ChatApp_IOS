@@ -11,6 +11,12 @@ class ConversationController: UIViewController {
     // MARK: - Properties
     private let user: UserModel
     
+    private var conversations: [MessageModel] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    private var conversationsDictionary = [String : MessageModel]()
     private let tableView = UITableView()
     // MARK: - LifeCycle
     
@@ -23,6 +29,7 @@ class ConversationController: UIViewController {
         super.viewDidLoad()
          congiUI()
         Config_TableView()
+        FetchConversations()
     }
    
     // MARK: - Helpers
@@ -51,6 +58,21 @@ class ConversationController: UIViewController {
         tableView.tableFooterView = UIView()
         tableView.rowHeight = 80
     }
+    /// fetch conversation data
+    private func FetchConversations(){
+        MessageServices.shared.fetchRecentMessages { conversation in
+            conversation.forEach { conversation in
+                self.conversationsDictionary[conversation.chatPartnerID] = conversation
+            }
+            self.conversations = Array(self.conversationsDictionary.values)
+           
+        }
+    }
+    
+    func openChat(otheUser: UserModel,currentUser: UserModel){
+        let controller = ChatController(otherUser: otheUser, currentUser: currentUser)
+        navigationController?.pushViewController(controller, animated: true)
+    }
   // MARK: - Add Actions
     /// Logout
     @objc func didTapLogout(){
@@ -66,9 +88,11 @@ class ConversationController: UIViewController {
     /// got to new chate
     @objc func didHandelNewChat(){
         let controller = NewChatController()
+        controller.delegate = self
         let nav = UINavigationController(rootViewController: controller)
         present(nav, animated: true)
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -76,20 +100,40 @@ class ConversationController: UIViewController {
 
 extension ConversationController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return conversations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ConversationCell.identifier, for: indexPath) as? ConversationCell else {
             return   UITableViewCell()
         }
+        
+        let message = conversations[indexPath.row]
+        cell.viewModel = MessageViewModel(message: message)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let layout = UICollectionViewFlowLayout()
-        let controller = ChatController(collectionViewLayout: layout)
-        navigationController?.pushViewController(controller, animated: true)
+        let conversation = conversations[indexPath.row]
+        showLoader(true)
+        UserServices.shared.fetchUser(uid: conversation.chatPartnerID) { [self] otherUser in
+              showLoader(false)
+              openChat(otheUser: otherUser, currentUser: user )
+        }
     }
+    
+    
+}
+
+
+// MARK: - protocol Extension NewChatControllerDelegate
+extension ConversationController: NewChatControllerDelegate {
+    func controller(_ vc: NewChatController, wantChatWithUser otherUser: UserModel) {
+        vc.dismiss(animated: true)
+        openChat(otheUser: otherUser, currentUser: user)
+        print(user.fullname)
+        
+    }
+    
     
 }
