@@ -19,6 +19,20 @@ class ConversationCell: UITableViewCell {
     private let fullname = CustomLable(text: "FullName")
     private let recentMessage = CustomLable(text: "recent message",color: .lightGray)
     private let dataLable = CustomLable(text: "10/10/2023",color: .lightGray)
+    
+    private let unReadMsgLable: UILabel = {
+       let lable = UILabel()
+        lable.text = "2"
+        lable.font = .boldSystemFont(ofSize: 18)
+        lable.textColor = .white
+        lable.backgroundColor = .green
+        lable.setDimensions(height: 30, width: 30)
+        lable.layer.cornerRadius = 15
+        lable.textAlignment = .center
+        lable.translatesAutoresizingMaskIntoConstraints = false
+        lable.clipsToBounds = true
+        return lable
+    }()
  // MARK: - LifeCycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -34,7 +48,7 @@ class ConversationCell: UITableViewCell {
     private func Config_UI(){
         backgroundColor = .clear
         selectionStyle = .none
-        addSubviews(profileImageView,dataLable)
+        addSubviews(profileImageView)
         imageUI()
         Add_Constraints()
     }
@@ -54,7 +68,15 @@ class ConversationCell: UITableViewCell {
         stackView.alignment = .leading
         addSubview(stackView)
         stackView.centerY(inView: profileImageView, leftAnchor: profileImageView.rightAnchor, paddingLeft: 10)
-        dataLable.centerY(inView: self, rightAnchor: rightAnchor,paddingRight: 10)
+        
+        let stackDate = UIStackView(arrangedSubviews: [dataLable,unReadMsgLable])
+        stackDate.axis = .vertical
+        stackDate.spacing = 7
+        stackDate.alignment = .trailing
+        
+        addSubview(stackDate)
+        stackDate.centerY(inView: profileImageView, rightAnchor: rightAnchor,paddingRight: 8)
+    
     }
     
     private func configureCell(){
@@ -63,5 +85,7 @@ class ConversationCell: UITableViewCell {
         self.fullname.text = viewModel.message.fullname
         self.recentMessage.text = viewModel.messageText
         self.dataLable.text = viewModel.timestapeString
+        self.unReadMsgLable.text = "\(viewModel.unReadCount)"
+        self.unReadMsgLable.isHidden = viewModel.shouldHidenunReadLable
     }
 }

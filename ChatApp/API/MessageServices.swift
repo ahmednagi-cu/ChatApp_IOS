@@ -33,7 +33,7 @@ final class MessageServices {
         }
     }
     /// fetch upload message to firebase
-    func uploadMessage(message: String, currentUser: UserModel, otherUser: UserModel,completion: ((Error?)
+    func uploadMessage(message: String, currentUser: UserModel, otherUser: UserModel,unReadeCount: Int,completion: ((Error?)
     -> Void)?){
         let dataFrom: [String: Any] = [
             "text": message,
@@ -43,7 +43,8 @@ final class MessageServices {
             
             "username": otherUser.username,
             "fullname": otherUser.fullname,
-            "profileImage": otherUser.profileImage
+            "profileImage": otherUser.profileImage,
+            "new_msg": 0
         ]
         let dataTo: [String:Any] = [
             "text": message,
@@ -53,7 +54,8 @@ final class MessageServices {
             
             "username": currentUser.username,
             "fullname": currentUser.fullname,
-            "profileImage": currentUser.profileImage
+            "profileImage": currentUser.profileImage,
+            "new_msg": unReadeCount
         
         ]
         
@@ -62,5 +64,26 @@ final class MessageServices {
             collection_Messages.document(currentUser.uid).collection("recent-message").document(otherUser.uid).setData(dataFrom)
             collection_Messages.document(otherUser.uid).collection("recent-message").document(currentUser.uid).setData(dataTo)
         }
+    }
+    
+    func fetchSingleRecentMsg(otherUser: UserModel, completion: @escaping(Int) -> Void){
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        collection_Messages.document(otherUser.uid).collection("recent-message").document(uid).getDocument { snapshot, error in
+            guard let data = snapshot?.data() else {
+                completion(0)
+                return
+            }
+            let message = MessageModel(dictionary: data)
+            completion(message.new_msg)
+        }
+    }
+    
+    func markReadAllMessage(otherUser: UserModel){
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let dataUpdate: [String: Any] = [
+            "new_msg": 0
+        ]
+        collection_Messages.document(uid).collection("recent-message").document(otherUser.uid).updateData(dataUpdate)
     }
 }

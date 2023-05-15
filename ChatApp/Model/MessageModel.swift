@@ -15,7 +15,7 @@ struct MessageModel {
     let username: String
     let fullname: String
     let profileImage: String
-   
+    let new_msg: Int
     var isFromCurrentUser: Bool
     
     var chatPartnerID: String { return isFromCurrentUser ? toID : fromId}
@@ -29,6 +29,8 @@ struct MessageModel {
         self.profileImage = dictionary["profileImage"] as? String ?? ""
         self.timeStamp = dictionary["timeStamp"] as? Timestamp ?? Timestamp(date: Date())
         self.isFromCurrentUser = fromId == Auth.auth().currentUser?.uid
+        
+        self.new_msg = dictionary["new_msg"] as? Int ?? 0 
         
     }
 }

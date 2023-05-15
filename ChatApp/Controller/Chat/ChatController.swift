@@ -33,6 +33,13 @@ class ChatController: UICollectionViewController {
         super.viewDidLoad()
         Config_UI()
         FetchMessages()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.markReadAllMessage()
+        }
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        markReadAllMessage()
     }
     // add input view in collection view when is collection appear
     
@@ -60,6 +67,10 @@ class ChatController: UICollectionViewController {
             collectionView.reloadData()
             print(String(describing: message))
         }
+    }
+    
+    private func markReadAllMessage(){
+        MessageServices.shared.markReadAllMessage(otherUser: otherUser)
     }
 
 }
@@ -110,19 +121,13 @@ extension ChatController: UICollectionViewDelegateFlowLayout {
 extension ChatController: CustomInputViewTypingDelegate {
 
     func customInputViewTyping(_ view: CustomInputViewTyping, wantUploadMessage message: String, sendbtn: UIButton) {
-        print(message)
-        collectionView.reloadData()
-        MessageServices.shared.uploadMessage(message: message, currentUser:currentUser, otherUser: otherUser) { _ in
-          // TODO: -
-            print(message)
+        MessageServices.shared.fetchSingleRecentMsg(otherUser: otherUser) { [self] unReadCount in
+            MessageServices.shared.uploadMessage(message: message, currentUser:currentUser, otherUser: otherUser, unReadeCount: unReadCount + 1) { _ in
+                self.collectionView.reloadData()
+                print(unReadCount)
+            }
         }
         view.cleartextView()
-//        if view.inputTextView.text == ""{
-//            sendbtn.isEnabled = true
-//        }else {
-//            sendbtn.isEnabled = false
-//        }
-//
   }
 
     

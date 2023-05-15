@@ -17,6 +17,8 @@ final class MessageViewModel {
     var profileImage: URL? { return URL(string:  message.profileImage)}
     var rightAnchorActive: Bool { return message.isFromCurrentUser}
     var leftAnchorActive: Bool { return !message.isFromCurrentUser}
+    var unReadCount: Int { return message.new_msg}
+    var shouldHidenunReadLable: Bool { return message.new_msg == 0}
     var timestapeString: String? {
         let data = message.timeStamp.dateValue()
         let dateFormatter = DateFormatter()
